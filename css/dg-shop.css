@@ -1,0 +1,193 @@
+/* 
+    Document   : dg-shop.css
+    Created on : 05.10.2012, 14:54:21
+    Author     : Darius Glockenmeier <darius@glockenmeier.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+/* fair-trade specifics */
+
+.fair_trade_products-archive, .fair_trade_products-single {
+    float: left;
+    margin: 0 -26.4% 0 0;
+
+}
+
+.fair_trade_products-single #primary, .singular #primary {
+    width: 70%;
+}
+
+.fair_trade_products-archive h2, .fair_trade_products-single h2 {
+    padding: 20px;
+    font-size: 1.5em;
+}
+
+.fair_trade_products-single .fair_trade_products, .fair_trade_products-archive .fair_trade_products {
+    background-color: #f5f5f5;
+    border-radius: 5%;
+    /*
+    border-style: outset;
+    border-color: #fafafa;
+    */
+    box-shadow: -1px 3px 6px rgba(0, 0, 0, 0.15);
+    padding: 15px 15px;
+    margin: 0px 0px 10px 0px; 
+}
+
+.fair_trade_products-single .fair_trade_products {
+    box-shadow: -1px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.fair_trade_products-archive .fair_trade_products:hover {
+    box-shadow: -1px 3px 9px rgba(0, 0, 0, 0.3);
+}
+
+.post-data, .post-meta {
+    float: left;
+    clear: both;
+}
+
+.post-data {
+    float: left;
+    color: gray;
+    font-size: 0.8em;
+    clear: both;
+}
+
+.post_wrap {
+
+}
+
+.post-data a {
+    font-size: 1em;
+    clear: both;
+}
+
+.post-entry p {
+    margin-bottom: 0px;
+}
+
+.post-entry {
+    clear: right;
+    float: left;
+    margin-left: 1.625em;
+    width: 60%;
+}
+
+.dclear {
+    clear: both;
+}
+
+.post-meta {
+    float: left;
+}
+
+.post-meta ul {
+    margin-bottom: 0px;
+}
+
+.post-thumb {
+    float: left;
+    clear: left;
+}
+
+.post-thumb img {
+    margin-bottom: 0.625em;
+    margin-right: 0.625em;
+}
+
+.the-thumb:hover, .the-thumb img:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.mini-thumb {
+    float: left;
+    background-color: lightyellow;
+    width: 50px;
+    height: 50px;
+    border-style: dashed;
+    border-width: 1px;
+    padding: 1px;
+}
+
+.the-mini-thumb {
+    background-color: lightcoral; 
+    width: 42px; 
+    height: 42px; 
+    margin: 4px;
+}
+
+.post-meta {
+
+}
+
+.post-desc {
+    float: left;
+}
+
+.post-content {
+
+}
+
+.post-cart {
+    float: right;
+    margin-right: 0.25em;
+}
+
+.post-cart button {
+    background: none repeat scroll 0 0 #555555;
+    color: #EEEEEE;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    padding: 5px 22px 5px 22px;
+    /* padding: 5% 25% 5% 25%; */
+    cursor: pointer;
+    font-size: 15px;
+    font-size: 1.075em;
+}
+
+.post-cart button:hover {
+    /* background: none repeat scroll 0 0 #1982D1; */
+    background: none repeat scroll 0 0 #6e6e6e;
+    color: #FFF;
+    padding: 5px 22px 5px 22px;
+}
+
+.post-cart button:active {
+    background: none repeat scroll 0 0 #8e8e8e;
+    color: #FFF;
+    padding: 6px 21px 4px 23px;
+}
+
+.fair_trade_products-single .post-title {
+    color: #464646;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.fair_trade_products .post-title {
+    float: left;
+    clear: both;
+    position: relative;
+    font-size: 1.2em;
+}
+
+.post-edit {
+    clear: both;
+    float: left;
+}
+
+.back-link {
+    float: left;
+}
+
+.round {
+    border-radius: 100%;
+    padding: 5%;
+}
