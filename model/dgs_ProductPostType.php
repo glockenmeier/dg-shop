@@ -10,7 +10,7 @@
  * @author Darius Glockenmeier <darius@glockenmeier.com>
  * @package your_package_name_here
  */
-class dg_ProductPostType extends DopeCustomPostType {
+class dgs_ProductPostType extends DopeCustomPostType {
 
     /**
      * Creates a new instance of DG's Shop Products - Custom Post Type 

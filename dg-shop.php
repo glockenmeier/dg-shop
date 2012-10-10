@@ -29,9 +29,11 @@
 */
 
 include 'dependency-check.php';
-require_once 'DgShop.php';
-require_once 'controller/DgShopAdminController.php';
-require_once 'model/dg_ProductPostType.php';
+
+/**
+ * Let dope register the autoload feature for this plugin.
+ */
+DopePluginAutoloader::register(plugin_dir_path(__FILE__));
 
 /*
  * Get an instance of the plugin-manager.

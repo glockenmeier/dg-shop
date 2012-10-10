@@ -62,6 +62,8 @@ $more = 0;
                         </div><!-- end of .post-data -->             
                         <div class="post-meta">
                             post meta
+                            <?php //echo the_meta(); ?>
+                            <?php echo $this->meta; ?>
                         </div><!-- end of .post-meta -->
                     </div><!-- end of .post-entry -->
                     
