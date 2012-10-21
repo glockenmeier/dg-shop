@@ -27,9 +27,9 @@ class dgs_ProductPostType extends DopeCustomPostType {
             'rewrite' => array('slug' => 'fair-trade-products', 'pages' => true),
             'capability_type' => 'post',
             'map_meta_cap' => true,
-            'taxonomies' => array('post_tag', 'category'),
+            //'taxonomies' => array('post_tag', 'category'),
             'hierarchical' => true, // must be true to support  page-attributes
-            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'page-attributes', 'excerpt'),
+            'supports' => array('title', 'editor', 'thumbnail', 'excerpt'),
             'has_archive' => true
         );
 

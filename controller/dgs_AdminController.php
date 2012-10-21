@@ -15,17 +15,11 @@ final class dgs_AdminController extends DopeController {
     private $model;
     private $post_type; // products - post type slug
 
-    /**
-     *
-     * @param DopePlugin $plugin
-     * @param \dgs_Model $model 
-     */
     public function __construct(DopePlugin $plugin) {
         parent::__construct($plugin);
         $this->model = new dgs_Model();
-        $this->post_type = $this->model->getProductsPostType()->getType();
+        $this->post_type = $this->model->getProductPostType()->getType();
         $this->init();
-        
     }
 
     private function init() {
@@ -35,32 +29,44 @@ final class dgs_AdminController extends DopeController {
     }
 
     public function init_products() {
-        $this->model->getProductsPostType()->register();
+        $this->model->getProductPostType()->register();
     }
 
     protected function getCurrentAction() {
         parent::getCurrentAction();
     }
 
-    public function init_admin(){
-        add_filter(sprintf("manage_%s_posts_columns", $this->post_type), array($this, "change_cpt_columns"));
-        add_filter(sprintf("manage_edit-%s_sortable_columns", $this->post_type), array($this, "change_sortable_columns"));
-        $this->init_products_option_meta_box();
-    }
-    
-    public function init_products_option_meta_box() {
-        add_meta_box('dg_shop_products_option', "Options", array($this, 'render_products_option'), $this->post_type);
+    public function init_admin() {
+        if (true) {
+            add_filter(sprintf("manage_%s_posts_columns", $this->post_type), array($this, "change_cpt_columns"));
+            add_filter(sprintf("manage_edit-%s_sortable_columns", $this->post_type), array($this, "change_sortable_columns"));
+            $this->plugin->enqueueStyle("dg-shop-admin");
+            //$this->plugin->enqueueScript("edit-products", array(), false, true);
+            $this->init_options_meta_box();
+            $this->init_attributes_meta_box();
+        }
     }
 
-    public function render_products_option() {
-        // todo: use ajax to save custom option and their values.
-        echo "Hello world!";
-        return;
-        
+    public function init_options_meta_box() {
+
         $view = new SimpleDopeView($this->plugin);
         $view->assign("option_name", "the name")
                 ->assign("option_values", "values")
-                ->render('products/option_metabox');
+                ->assign("post_type", $this->post_type)
+                ->setTemplate('products/admin/options-metabox');
+        $metabox = new dgs_ProductOptionsMetabox($view, $this->post_type);
+        $metabox->add();
+    }
+
+    public function init_attributes_meta_box() {
+
+        $view = new SimpleDopeView($this->plugin);
+        $view->assign("option_name", "the name")
+                ->assign("option_values", "values")
+                ->assign("post_type", $this->post_type)
+                ->setTemplate('products/admin/attributes-metabox');
+        $metabox = new dgs_ProductAttributesMetabox($view, $this->post_type);
+        $metabox->add();
     }
 
     public function change_cpt_columns($cols) {
@@ -74,7 +80,7 @@ final class dgs_AdminController extends DopeController {
         $my_cols = array_merge($cols, $my_cols);
         return $my_cols;
     }
-    
+
     public function change_sortable_columns() {
         return array(
             'title' => 'title',
@@ -86,9 +92,9 @@ final class dgs_AdminController extends DopeController {
             'tags' => 'tags'
         );
     }
-    
-    public function indexAction() {
-        echo "hi";
+
+    public function defaultAction() {
+        echo "woe is me!";
     }
 
 }

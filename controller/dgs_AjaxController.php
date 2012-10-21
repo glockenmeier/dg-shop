@@ -14,6 +14,7 @@ class dgs_AjaxController extends DopeController {
     
     private $model;
     private $post_type; // products - post type slug
+    private $action_prefix = "dgs_";
 
     /**
      *
@@ -24,15 +25,29 @@ class dgs_AjaxController extends DopeController {
     public function __construct(DopePlugin $plugin) {
         parent::__construct($plugin);
         $this->model = new dgs_Model();
-        $this->post_type = $this->model->getProductsPostType()->getType();
-        $this->init();
+        $this->post_type = $this->model->getProductPostType()->getType();
+        add_action("init", array($this, 'init'));
     }
 
-    private function init(){
-        
+    public function init(){
+        $this->model->getProductPostType()->register();
     }
     
-    public function indexAction() {
+    protected function getCurrentAction() {
+        $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
         
+        // remove prefix
+        if (stripos($slug, $this->plugin->getName()) === 0){
+            $slug = str_ireplace($this->plugin->getName(), '', $slug);
+        }
+        
+        return $action;
+    }
+    
+    public function getControllerUrl() {
+        parent::getControllerUrl();
+    }
+    
+    public function defaultAction() {
     }
 }

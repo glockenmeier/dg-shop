@@ -15,7 +15,7 @@ final class dgs_Model {
     private $meta;
     
     public function __construct() {
-        $this->products = new dgs_ProductPostType('fair_trade_products');
+        $this->products = new dgs_ProductPostType('fair_trade_products');        
         //$this->meta = new dgs_ProductMeta();
     }
     

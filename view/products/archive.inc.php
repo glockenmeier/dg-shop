@@ -51,7 +51,9 @@ if (!defined('ABSPATH'))
 
                     <div class="post-edit"><?php edit_post_link(__('Edit', 'dg-shop')); ?></div>
                     <div class="post-cart">
-                        <button name="cart" title="Add to cart">Add to cart</button>
+                        <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" >
+                            <button name="details" title="Click to see the product details">Details &gt;&gt;</button>
+                        </a>
                     </div>
                     <div class="dclear"></div>
                 </div><!-- end of #post-<?php the_ID(); ?> -->

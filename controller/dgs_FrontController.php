@@ -52,6 +52,7 @@ final class dgs_FrontController extends DopeController {
         // TODO: try content only filter, keeping theme intact as an option.
 
         if (!isset($post) || $post->post_type != $this->post_type) {
+            // TODO: fixme: tags and categories doesn't come with post type. need a way to differentiate post.
             /*
               echo "count: " . printf("<pre>\n%s\n</pre>", print_r($wp_query, true));
               echo "<br />is tag: " . is_tag();
@@ -78,8 +79,15 @@ final class dgs_FrontController extends DopeController {
     public function cpt_products_single_template() {
         $view = new SimpleDopeView($this->plugin);
         $content_class = sprintf('class="%s-single"', esc_attr($this->post_type));
-        if (get_query_var("preview") == true) {
-            $posts_query = sprintf('post_type=%1$s&p=%2$s', $this->post_type, get_query_var("p"));
+        
+        if (is_preview()) {
+            // NOTE: handle inconsistent preview var naming in WP
+            //global $wp_query;
+            //var_dump($wp_query);
+            //exit;
+            $preview_key = (int)get_query_var("p") !== 0 ? 'p' : 'p';
+            $posts_query = sprintf('post_type=%1$s&%2$s=%3$s', $this->post_type, $preview_key, 69);
+            
         } else {
             $posts_query = sprintf('post_type=%1$s&%1$s=%2$s', $this->post_type, get_query_var($this->post_type));
         }
@@ -114,7 +122,7 @@ final class dgs_FrontController extends DopeController {
         return $query_var;
     }
 
-    public function indexAction() {
+    public function defaultAction() {
         
     }
 

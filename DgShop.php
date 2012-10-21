@@ -22,15 +22,41 @@ class DgShop extends DopePlugin {
     }
 
     public function init() {
-        if (is_admin() && defined('DOING_AJAX') && DOING_AJAX){
+        if (is_admin() && defined('DOING_AJAX') && DOING_AJAX) {
             $this->controller = new dgs_AjaxController($this);
-        } else if (is_admin()){
+        } else if (is_admin()) {
             $this->controller = new dgs_AdminController($this);
-        }else {
+        } else {
             $this->controller = new dgs_FrontController($this);
         }
+        // add dojo script (for development only)
+        // NOTE: before release, we need to compile dojo with a custom profile to the js/ folder
+        $this->setPriority("wp_enqueue_scripts", 100, 'add_dojo_dev_script');
+        $this->addAction("wp_enqueue_scripts", 'add_dojo_dev_script'); // add script to the end of </body> tag
+        $this->setPriority("admin_enqueue_scripts", 100, 'add_dojo_dev_script');
+        $this->addAction("admin_enqueue_scripts", 'add_dojo_dev_script'); // add script to the end of </body> tag
     }
-    
+
+    public function add_dojo_dev_script($ar) {
+        //TODO: look at wp execution path, see if we can find an action just before the closing HTML body tag.
+        //var_dump($ar);
+        //return;
+        //exit;
+        $use_local = false;
+        $google_cdn = "//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/dojo.js";
+        $local = "//js.local/dojo-src/dojo/dojo.js";
+        
+        
+        $view = new SimpleDopeView($this);
+        $loc = is_admin() ? "/.." : "";
+        
+        $view->assign("src", $use_local ? $local : $google_cdn)
+                ->assign("async", "true")
+                ->assign("package", "dg-shop")
+                ->assign("location", $loc . "/wp-content/plugins/dg-shop/js/dg-shop")
+                ->render('dev/dojo-script');
+    }
+
     public static function getInstance($bootstrapFile) {
         if (self::$instance === null) {
             self::$instance = new self($bootstrapFile);
@@ -48,7 +74,9 @@ class DgShop extends DopePlugin {
 
     public function onActivation() {
         parent::onActivation();
-        $this->controller->init_products_cpt(); // everywhere else would be too late :(
+
+        $model = new dgs_Model();
+        $model->getProductPostType()->register();
         $this->flush_rewrite();
     }
 
