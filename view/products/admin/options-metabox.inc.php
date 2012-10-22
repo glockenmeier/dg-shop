@@ -16,11 +16,11 @@
 <?php foreach ($this->options as $option): /* populate with available options */ ?>
     <div class="option">
         <div class="input add_new_option">
-            <input type="text" name="option_name" title="Option name" value="<?php echo $option->name; ?>" />
-            <button class="button" title="Delete this option" style="color: red;">X</button>
+            <input type="text" name="option_name" title="Option name" autocomplete="off" value="<?php echo $option->name; ?>" />
+            <button class="button delete" title="Delete this option" style="color: red;">X</button>
         </div>
         <div class="input input add_new_value">
-            <input type="text" name="option_value" title="Option value" disabled="disabled" />
+            <input type="text" name="option_value" title="Option value" autocomplete="off" disabled="disabled" />
             <button class="button add_new_value" title="Add value to the list of available options" disabled="disabled">Add</button>
         </div>
         <select name="options" size="5" multiple="multiple">
@@ -42,14 +42,14 @@
     <button id="dg_shop_new_option" class="button" title="Add new option">+</button>
 </div>
 
-<div id="dg_shop_option_template" style="visibility: hidden; position: absolute; ">
+<div id="dg_shop_option_template" class="hidden">
     <div class="input add_new_option">
-        <input type="text" name="option_name" title="Option name" />
-        <button class="button add" title="Add as new option" disabled="disabled" style="visibility: hidden; position: absolute;">Add</button>
+        <input type="text" name="option_name" title="Option name" autocomplete="off" />
+        <button class="button add" title="Add as new option" disabled="disabled" >Add</button>
         <button class="button delete" title="Delete this option">X</button>
     </div>
     <div class="input input add_new_value">
-        <input type="text" name="option_value" title="Option value" disabled="disabled" />
+        <input type="text" name="option_value" title="Option value" disabled="disabled" autocomplete="off" />
         <button class="button add_new_value" title="Add value to the list of available options" disabled="disabled">Add</button>
     </div>
     <select name="options" size="5" multiple="multiple">

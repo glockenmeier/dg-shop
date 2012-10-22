@@ -24,16 +24,17 @@ define([
     // dependencies
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/dom",
     "dojo/dom-construct",
+    "dojo/dom-class",
     "dojo/query",
     "dojo/dom-attr",
     "dojo/on",
     "dg-shop/Object",
-    ], function(declare, lang, dom, domc, query, attr, on, Object){
+    ], function(declare, lang, domConstruct, domClass, query, attr, on, Object){
         return declare(Object, {
             btnNewOption: null,
             txtNewOption: null,
+            btnDelete: null,
             btnNewValue: null,
             txtNewValue: null,
             optionName: null,
@@ -48,8 +49,9 @@ define([
             load: function() {
                 
                 /* get references */
-                this.btnNewOption = query('.add_new_option button', this.node)[0];
+                this.btnNewOption = query('.add_new_option button.add', this.node)[0];
                 this.txtNewOption = query('.add_new_option input', this.node)[0];
+                this.btnDelete = query('div.add_new_option button.delete', this.node)[0];
                 
                 // fill optionName if already set
                 this.optionName = this.txtNewOption.value.length > 0 ? this.txtNewOption.value : null;
@@ -58,9 +60,12 @@ define([
                 this.txtNewValue = query('.add_new_value input', this.node)[0];
                 
                 this.inputSelect = query('select[name="options"]', this.node)[0];
-                
+
                 /* bind events */
-                this.handles.push(on(this.btnNewOption, "click", lang.hitch(this, this.btnNewOption_click)));
+                if (this.btnNewOption !== undefined && !domClass.contains(this.btnNewOption, "hidden")){
+                    this.handles.push(on(this.btnNewOption, "click", lang.hitch(this, this.btnNewOption_click)));
+                }
+                this.handles.push(on(this.btnDelete, "click", lang.hitch(this, this.btnDelete_click)));
                 this.handles.push(on(this.btnNewValue, "click", lang.hitch(this, this.btnNewValue_click)));
                 
                 this.handles.push(on(this.txtNewOption, "keyup", lang.hitch(this, this.txtNewOption_keyup)));
@@ -76,21 +81,17 @@ define([
                 return true;
             },
             alreadySet: function(e){
-                // switch button to delete state
+                // switch button to added state
                 this.setDisabled(this.txtNewOption, true);
+                domClass.add(this.btnNewOption, "hidden");
                 this.setDisabled(this.txtNewValue, false);
-                attr.set(this.btnNewOption, {
-                    "style": "color: red;", 
-                    "title": "Delete this option"
-                });
-                this.btnNewOption.innerHTML = "X";
             },
             btnDelete_click: function(e) {
                 e.preventDefault();
                 
                 this.optionName = null;
                 // cleanup
-                domc.destroy(this.node);
+                domConstruct.destroy(this.node);
                 this.unload();
             },
             btnNewOption_click: function(e) {
@@ -109,9 +110,9 @@ define([
                     };
                     
                     var valuesNode = query("div .dg_shop_values")[0];
-                    domc.create("input", attributes, valuesNode, "first");
+                    domConstruct.create("input", attributes, valuesNode, "first");
                     
-                    this.deleteState(e);
+                    this.alreadySet(e);
                     
                 }
             },
@@ -124,7 +125,7 @@ define([
                         'innerHTML': n.value
                     };
                     // create visual option for user
-                    domc.create("option", attributes, this.inputSelect, "first");
+                    domConstruct.create("option", attributes, this.inputSelect, "first");
                     
                     // write the actual value
                     attributes = {
@@ -134,11 +135,12 @@ define([
                     };
                     
                     var valuesNode = query("div .dg_shop_values")[0];
-                    domc.create("input", attributes, valuesNode, "first");
+                    domConstruct.create("input", attributes, valuesNode, "first");
                     
                     // reset value input node
                     n.value = "";
                 }
+                this.txtNewValue_keyup(e);
             },
             txtNewOption_keyup: function(e) {
                 this.toggleDisabled(this.btnNewOption, this.txtNewOption);

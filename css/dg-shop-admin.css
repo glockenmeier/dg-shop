@@ -10,6 +10,10 @@ root {
     display: block;
 }
 
+/* ========================================================================== *
+ * Product options                                                            *
+ * ========================================================================== */
+
 #dg_shop_products_option .option {
     float: left;
     min-width: 10em;
@@ -74,4 +78,17 @@ root {
 
 #dg_shop_products_option select {
     height: auto;
+}
+
+#dg_shop_products_option .option .add button {
+    
+}
+
+#dg_shop_products_option button.delete {
+    color: tomato; /* :) */
+}
+
+#dg_shop_products_option .hidden {
+    visibility: hidden;
+    position: absolute;
 }

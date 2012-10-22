@@ -33,9 +33,8 @@ define([
     "dojo/query",
     "dojo/on",
     "dg-shop/Object",
-    "dg-shop/OptionBox",
-    "dg-shop/edit",
-    ], function(declare, lang, arr, dom, domc, query, on, obj, OptionBox, edit){
+    "dg-shop/OptionBox"
+    ], function(declare, lang, arr, dom, domc, query, on, obj, OptionBox){
         var Shop = declare(obj, {
             metabox: null,
             templateNode: null,
@@ -62,7 +61,6 @@ define([
             registerOptions: function(){
                 this.options = [];
                 query(".option", this.metabox).forEach(lang.hitch(this, function(node){
-                    console.debug("node: " + node);
                     var option = new OptionBox(node);
                     option.load();
                     this.options.push(option);
