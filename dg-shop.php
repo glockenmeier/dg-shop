@@ -25,7 +25,6 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-//return;
 include 'dependency-check.php';
 
 /**
@@ -34,37 +33,6 @@ include 'dependency-check.php';
 DopePluginAutoloader::register(plugin_dir_path(__FILE__));
 
 /*
- * Get an instance of the plugin-manager.
- * DopePluginManager is implemented as a singleton. Means that there is only
- * one instance of the manager. getInstance() give's you access to that instance.
- * 
+ * Starts the plugin
  */
-$pluginManager = DopePluginManager::getInstance();
-
-/**
- * Note that DgShop is also implemented as singleton. This is not mandatory
- * but is a good practice to keep and refer to a single instance of the plugin.
- */
-$dg_shop = DgShop::getInstance(__FILE__);
-
-/* Registers our plugin with dope's plugin-manager.
- * Right now this does nothing aside from registering. Might be used in future
- * to manage dope based plug-ins, dependencies, etc.
- */
-$pluginManager->register($dg_shop);
-
-/*
- * Enable dope's exception handler for debugging.
- */
-$dope = DGOOPlugin::getInstance();
-$dope->enableExceptionHandler();
-
-function hprint_r($var, $return = false, $title = '') {
-    
-    $out = "%s<pre>%s</pre>";
-    if ($return) {
-        return sprintf($out, $title, print_r($var, true));
-    } else {
-        printf($out, $title, print_r($var, true));
-    }
-}
+DgShop::bootstrap(__FILE__);

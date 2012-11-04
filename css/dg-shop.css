@@ -28,7 +28,7 @@ root {
 }
 
 .fair_trade_products-single .fair_trade_products, .fair_trade_products-archive .fair_trade_products {
-    background-color: #f5f5f5;
+    background-color: rgba(209,209,209,0.3); /* #d1d1d1 #c4 */
     border-radius: 5%;
     /*
     border-style: outset;
@@ -37,6 +37,7 @@ root {
     box-shadow: -1px 3px 6px rgba(0, 0, 0, 0.15);
     padding: 15px 15px;
     margin: 0px 0px 10px 0px; 
+    border: none;
 }
 
 .fair_trade_products-single .fair_trade_products {
@@ -45,6 +46,10 @@ root {
 
 .fair_trade_products-archive .fair_trade_products:hover {
     box-shadow: -1px 3px 9px rgba(0, 0, 0, 0.3);
+}
+
+.fair_trade_products-single .post-entry {
+    margin-bottom: 1.625em;
 }
 
 .post-data, .post-meta {
@@ -85,6 +90,11 @@ root {
 
 .post-meta {
     float: left;
+    width: 100%;
+}
+
+.post-meta .attributes {
+    float: left;
 }
 
 .post-meta ul {
@@ -120,10 +130,6 @@ root {
     width: 42px; 
     height: 42px; 
     margin: 4px;
-}
-
-.post-meta {
-
 }
 
 .post-desc {
@@ -168,7 +174,7 @@ root {
 
 .fair_trade_products-single .post-title {
     color: #464646;
-    text-shadow: 0 1px 0 #FFFFFF;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 }
 
 .fair_trade_products .post-title {
@@ -183,6 +189,13 @@ root {
     float: left;
 }
 
+.post-foot {
+    margin-top: 10px;
+    float: left;
+    clear: both;
+    width: 100%;
+}
+
 .back-link {
     float: left;
 }
@@ -190,4 +203,59 @@ root {
 .round {
     border-radius: 100%;
     padding: 5%;
+}
+
+/* Temporary adjustments */
+
+#page {
+    background-color: #AEAE5F;
+}
+
+html body.custom-background {
+    background-color: #028041;
+}
+/* end of temporary */
+
+.fair_trade_products-single .options {
+    float: left;
+    margin-right: 1em;
+}
+
+.fair_trade_products-single .option {
+    
+}
+
+.fair_trade_products-single .option select {
+    
+}
+
+.fair_trade_products-single .options table {
+    width: 100%;
+}
+
+.fair_trade_products-single .options table {
+    background-color: rgba(255,255,255,0.3);
+    padding: 5px;
+}
+
+.fair_trade_products-single .options table th {
+    text-align: center;
+}
+
+.fair_trade_products-single .options table td {
+    padding: 2px 5px;
+}
+
+.fair_trade_products-single .options table td select {
+    width: 100%;
+}
+
+.fair_trade_products-single .options .select {
+    background-color: gainsboro;
+}
+
+.fair_trade_products-single .options table caption {
+    text-align: center;
+    font-size: 1.2em;
+    background-color: rgba(200,202, 200 ,0.5);
 }

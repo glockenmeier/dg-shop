@@ -2,8 +2,7 @@
 
 /*
  * Copyright 2012, Darius Glockenmeier.
- * 
- * 
+ * Add DOJO and custom package location
  */
 ?>
 

@@ -4,7 +4,7 @@ if (!defined('ABSPATH'))
     exit;
 
 /**
- * Fair-trade products template
+ * Products archive post template
  *
   Template Name: List of fair-trade products
  *
@@ -14,7 +14,6 @@ if (!defined('ABSPATH'))
  * @copyright      2012 Darius Glockenmeier
  * @license        license.txt
  * @version        Release: 1.0
- * @filesource     wp-content/themes/responsive-dg/fair_trade_products.php
  * @link           http://codex.wordpress.org/Templates
  * @since          available since Release 1.0
  */

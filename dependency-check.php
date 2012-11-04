@@ -2,10 +2,8 @@
 
 if (!function_exists('dg_oo_plugin_dependency_check')):
 
-    function dg_oo_plugin_dependency_check() {
-        $required_dope_version = "0.3.0"; // your required dope version here
-        $plugin_name = "DG's Shop Lite"; // TODO: get plugin name from metadata
-
+    function dg_oo_plugin_dependency_check($required_dope_version, $plugin_name) {
+    
         $error_message = "<p>%s requires DG's Object-oriented Plugin Extension version %s or later.</p>";
         // check wether dope requirements are met. fails otherwise
         if (!defined('DOPE_PLUGIN')) {
@@ -16,4 +14,4 @@ if (!function_exists('dg_oo_plugin_dependency_check')):
     }
 
 endif;
-dg_oo_plugin_dependency_check();
+dg_oo_plugin_dependency_check("0.3.0", "DG's Shop Lite");

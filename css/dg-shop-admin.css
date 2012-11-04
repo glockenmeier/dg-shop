@@ -48,7 +48,7 @@ root {
 }
 
 #dg_shop_products_option button .option.new {
-    
+
 }
 
 #dg_shop_products_option select, #dg_shop_products_option table {
@@ -73,7 +73,7 @@ root {
 }
 
 #dg_shop_products_option input {
-    
+
 }
 
 #dg_shop_products_option select {
@@ -81,7 +81,7 @@ root {
 }
 
 #dg_shop_products_option .option .add button {
-    
+
 }
 
 #dg_shop_products_option button.delete {
@@ -91,4 +91,70 @@ root {
 #dg_shop_products_option .hidden {
     visibility: hidden;
     position: absolute;
+}
+
+/* ========================================================================== *
+ * Product attributes                                                         *
+ * ========================================================================== */
+.dclear {
+    clear: both;
+}
+
+#dg_shop_products_attributes .hidden {
+    visibility: hidden;
+    position: absolute;
+}
+
+#dg_shop_products_attributes table {
+    width: 100%;
+}
+
+#dg_shop_products_attributes table .left {
+    width: 22em;
+}
+
+#dg_shop_products_attributes .attribute, #dg_shop_products_attributes .attribute_new {
+    
+    border-radius: 0.3em;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+    background-color: #f1f1f1;
+    border-color: #dfdfdf;
+    border-style: solid;
+    border-width: 1px;
+}
+
+#dg_shop_products_attributes .attribute:hover {
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.30);
+}
+
+#dg_shop_products_attributes .attribute_new {
+    padding: 10px 20px;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15);
+    background-color: #f6f6f6;
+    border-color: #efefef;
+}
+
+#dg_shop_products_attributes .attribute_new:hover {
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+    background-color: #f1f1f1;
+    border-color: #dfdfdf;
+}
+
+#dg_shop_products_attributes .attribute div.input {
+    margin-left: 1.75em;
+    margin-right: 1.75em;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+#dg_shop_products_attributes .attribute div.input.add_new_attribute {
+    max-width: 20em;
+}
+
+#dg_shop_products_attributes .attribute div.input textarea {
+   width: 100%;
+}
+
+#dg_shop_products_attributes button.delete {
+    color: tomato; /* :) */
 }

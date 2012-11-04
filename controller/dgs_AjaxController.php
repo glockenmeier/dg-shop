@@ -8,7 +8,9 @@
  * Description of dgs_AjaxController
  *
  * @author Darius Glockenmeier <darius@glockenmeier.com>
- * @package your_package_name_here
+ * @category MVC
+ * @package dg-shop
+ * @subpackage Controller
  */
 class dgs_AjaxController extends DopeController {
     

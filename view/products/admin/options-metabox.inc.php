@@ -9,48 +9,50 @@
  *
  * @author Darius Glockenmeier <darius@glockenmeier.com>
  * @package Views
- * @subpackage meta-options
+ * @subpackage metabox-options
  */
+$optionMeta = new dgs_ProductOptionMeta($this->post->ID);
+$options = $optionMeta->getIterable();
 ?>
 
-<?php foreach ($this->options as $option): /* populate with available options */ ?>
+<?php while ($options->hasNext()): $next = $options->next(); /* populate with available options */ ?>
     <div class="option">
         <div class="input add_new_option">
-            <input type="text" name="option_name" title="Option name" autocomplete="off" value="<?php echo $option->name; ?>" />
-            <button class="button delete" title="Delete this option" style="color: red;">X</button>
+            <input type="text" name="option_name" title="Option name" autocomplete="off" value="<?php echo $next->getName(); ?>" />
+            <button class="button delete" title="Delete this option" onclick="return false;">X</button>
         </div>
         <div class="input input add_new_value">
             <input type="text" name="option_value" title="Option value" autocomplete="off" disabled="disabled" />
-            <button class="button add_new_value" title="Add value to the list of available options" disabled="disabled">Add</button>
+            <button class="button add_new_value" title="Add value to the list of available options" disabled="disabled" onclick="return false;">Add</button>
         </div>
         <select name="options" size="5" multiple="multiple">
-            <?php foreach ($option->values as $value): ?>
+            <?php foreach ($next->getOptions() as $value): ?>
                 <option value="<?php echo $value ?>"><?php echo $value ?></option>
             <?php endforeach; ?>
         </select>
         <div class="dg_shop_values">
-            <input type="hidden" name="_optionname_<?php echo $option->key ?>" value="<?php echo $option->name /* readable option name */ ?>" />
-            <?php foreach ($option->values as $value): ?>
-                <input type="hidden" name="_option_<?php echo $option->key ?>[]" value="<?php echo $value ?>" />
+            <input type="hidden" name="_optionname_<?php echo $next->getKey() ?>" value="<?php echo $next->getName()/* readable option name */ ?>" />
+            <?php foreach ($next->getOptions() as $value): ?>
+            <input type="hidden" name="_option_<?php echo $next->getKey() ?>[]" value="<?php echo $value ?>" />
             <?php endforeach; ?>
         </div>
     </div>
-<?php endforeach; ?>
+<?php endwhile; ?>
 <?php echo $this->nonce ?>
 
 <div class="option_new">
-    <button id="dg_shop_new_option" class="button" title="Add new option">+</button>
+    <button id="dg_shop_new_option" class="button" title="Add new option" onclick="return false;">+</button>
 </div>
-
+<!-- <![CDATA[ -->
 <div id="dg_shop_option_template" class="hidden">
     <div class="input add_new_option">
         <input type="text" name="option_name" title="Option name" autocomplete="off" />
-        <button class="button add" title="Add as new option" disabled="disabled" >Add</button>
-        <button class="button delete" title="Delete this option">X</button>
+        <button class="button add" title="Add as new option" disabled="disabled" onclick="return false;">Add</button>
+        <button class="button delete" title="Delete this option" onclick="return false;">X</button>
     </div>
-    <div class="input input add_new_value">
+    <div class="input add_new_value">
         <input type="text" name="option_value" title="Option value" disabled="disabled" autocomplete="off" />
-        <button class="button add_new_value" title="Add value to the list of available options" disabled="disabled">Add</button>
+        <button class="button add_new_value" title="Add value to the list of available options" disabled="disabled" onclick="return false;">Add</button>
     </div>
     <select name="options" size="5" multiple="multiple">
 
@@ -59,13 +61,13 @@
 
     </div>
 </div>
-
-<div style="clear: both;"></div>
+<!-- <!]]> -->
+<div class="dclear"></div>
 <script type="text/javascript">
     /* <![CDATA[ */
-    require(["dg-shop/ShopMeta", "dojo/domReady!"], function(ShopMeta){
-        var shop = new ShopMeta("dg_shop_products_option");
-        shop.load();
+    require(["dg-shop/ShopMetaOptions", "dojo/domReady!"], function(Options){
+        var o = new Options("dg_shop_products_option");
+        o.load();
     });
     /* ]]> */
 </script>

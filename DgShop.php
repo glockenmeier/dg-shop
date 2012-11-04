@@ -5,10 +5,10 @@
  */
 
 /**
- * DG's Shop - a powerfull, yet simple to use products+shopping-cart implementation.
+ * DG's Shop Plugin
  *
  * @author Darius Glockenmeier <darius@glockenmeier.com>
- * @package your_package_name_here
+ * @package dg-shop
  */
 class DgShop extends DopePlugin {
 
@@ -32,24 +32,20 @@ class DgShop extends DopePlugin {
         // add dojo script (for development only)
         // NOTE: before release, we need to compile dojo with a custom profile to the js/ folder
         $this->setPriority("wp_enqueue_scripts", 100, 'add_dojo_dev_script');
-        $this->addAction("wp_enqueue_scripts", 'add_dojo_dev_script'); // add script to the end of </body> tag
+        $this->addAction("wp_enqueue_scripts", 'add_dojo_dev_script');
         $this->setPriority("admin_enqueue_scripts", 100, 'add_dojo_dev_script');
-        $this->addAction("admin_enqueue_scripts", 'add_dojo_dev_script'); // add script to the end of </body> tag
+        $this->addAction("admin_enqueue_scripts", 'add_dojo_dev_script');
     }
 
     public function add_dojo_dev_script($ar) {
-        //TODO: look at wp execution path, see if we can find an action just before the closing HTML body tag.
-        //var_dump($ar);
-        //return;
-        //exit;
+
         $use_local = false;
         $google_cdn = "//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/dojo.js";
         $local = "//js.local/dojo-src/dojo/dojo.js";
-        
-        
+
         $view = new SimpleDopeView($this);
         $loc = is_admin() ? "/.." : "";
-        
+
         $view->assign("src", $use_local ? $local : $google_cdn)
                 ->assign("async", "true")
                 ->assign("package", "dg-shop")
@@ -57,11 +53,54 @@ class DgShop extends DopePlugin {
                 ->render('dev/dojo-script');
     }
 
+    /**
+     * Gets the instance of {@see DgShop}.
+     * @param type $bootstrapFile
+     * @return DgShop
+     */
     public static function getInstance($bootstrapFile) {
         if (self::$instance === null) {
             self::$instance = new self($bootstrapFile);
         }
         return self::$instance;
+    }
+
+    /**
+     * Plugin bootstrap
+     * @param string $plugin_bootstrap the plugin file path, usually __FILE__
+     */
+    public static function bootstrap($plugin_bootstrap = __FILE__) {
+
+        /*
+         * Get an instance of the plugin-manager.
+         * DopePluginManager is implemented as a singleton. Means that there is only
+         * one instance of the manager. getInstance() give's you access to that instance.
+         * 
+         */
+        $pluginManager = DopePluginManager::getInstance();
+
+        /**
+         * Note that DgShop is also implemented as singleton. This is not mandatory
+         * but is a good practice to keep and refer to a single instance of the plugin.
+         */
+        $dg_shop = DgShop::getInstance($plugin_bootstrap);
+
+        /* Registers our plugin with dope's plugin-manager.
+         * Right now this does nothing aside from registering. Might be used in future
+         * to manage dope based plug-ins, dependencies, etc.
+         */
+        $pluginManager->register($dg_shop);
+
+        /*
+         * Enable dope's exception handler for debugging.
+         */
+        $dope = DGOOPlugin::getInstance();
+        $dope->enableExceptionHandler();
+
+        /**
+         * Attach debugging event listener
+         */
+        //$dg_shop->getEventHandler()->addListener(new DopePluginEventDebugger());
     }
 
     public function getDescription() {
@@ -72,8 +111,7 @@ class DgShop extends DopePlugin {
         return "DG's Shop";
     }
 
-    public function onActivation() {
-        parent::onActivation();
+    public function onActivation($event) {
 
         $model = new dgs_Model();
         $model->getProductPostType()->register();

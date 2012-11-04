@@ -8,7 +8,8 @@
  * DG's Shop Products - Custom Post Type
  *
  * @author Darius Glockenmeier <darius@glockenmeier.com>
- * @package your_package_name_here
+ * @package dg-shop
+ * @subpackage model
  */
 class dgs_ProductPostType extends DopeCustomPostType {
 
@@ -27,14 +28,12 @@ class dgs_ProductPostType extends DopeCustomPostType {
             'rewrite' => array('slug' => 'fair-trade-products', 'pages' => true),
             'capability_type' => 'post',
             'map_meta_cap' => true,
-            //'taxonomies' => array('post_tag', 'category'),
+            'taxonomies' => array('post_tag', 'category'),
             'hierarchical' => true, // must be true to support  page-attributes
-            'supports' => array('title', 'editor', 'thumbnail', 'excerpt'),
+            'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
             'has_archive' => true
         );
 
         parent::__construct($post_type, $options);
     }
 }
-
-?>

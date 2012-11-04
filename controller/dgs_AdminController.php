@@ -8,7 +8,9 @@
  * Description of DgShopAdminController
  *
  * @author Darius Glockenmeier <darius@glockenmeier.com>
- * @package your_package_name_here
+ * @category MVC
+ * @package dg-shop
+ * @subpackage Controller
  */
 final class dgs_AdminController extends DopeController {
 
@@ -47,7 +49,7 @@ final class dgs_AdminController extends DopeController {
         }
     }
 
-    public function init_options_meta_box() {
+    private function init_options_meta_box() {
 
         $view = new SimpleDopeView($this->plugin);
         $view->assign("option_name", "the name")
@@ -58,7 +60,7 @@ final class dgs_AdminController extends DopeController {
         $metabox->add();
     }
 
-    public function init_attributes_meta_box() {
+    private function init_attributes_meta_box() {
 
         $view = new SimpleDopeView($this->plugin);
         $view->assign("option_name", "the name")
