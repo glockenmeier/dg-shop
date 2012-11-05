@@ -72,14 +72,9 @@ final class dgs_FrontController extends DopeController {
         // TODO: try content only filter, keeping theme intact as an option.
 
         if ($dpost === null || $dpost->getType() != $this->post_type) {
-            // TODO: fixme: tags and categories doesnt work with custom post type.
-            /*
-              echo "<br />is tag: " . is_tag();
-              echo "<br />is tax: " . is_tax();
-              echo "<br />is cat: " . is_category();
-              exit; */
-
             return; // not ours to handle
+        } else if ($q->is_tag() || $q->is_category()) {
+            return; // let template handle those
         }
 
         if ($q->have_posts()) {
@@ -88,10 +83,10 @@ final class dgs_FrontController extends DopeController {
             } else if ($q->is_singular($this->post_type)) {
                 $this->cpt_products_single_template();
             } else {
-                //$q->set_404();
+                return; // defaults to template
             }
         } else {
-            //$q->set_404();
+            $q->set_404();
         }
         exit; // prevent default template being rendered.
     }
@@ -100,20 +95,11 @@ final class dgs_FrontController extends DopeController {
 
         $content_class = sprintf('class="%s-single"', esc_attr($this->post_type));
         $q = $this->getQuery();
-
-        if ($q->is_preview()) {
-            $preview_key = (int) $q->get("p") !== 0 ? 'p' : 'p';
-            $posts_query = sprintf('post_type=%1$s&%2$s=%3$s', $this->post_type, $preview_key, (int) $q->get("p"));
-        } else {
-            $posts_query = sprintf('post_type=%1$s&%1$s=%2$s', $this->post_type, $q->get($this->post_type));
-        }
-
         $dpost = $this->getPost();
 
         $view = new SimpleDopeView($this->plugin);
         $view->assign('content_class', $content_class)
                 ->assign("slug", $this->post_type)
-                ->assign('posts_query', $posts_query)
                 ->assign("post", $dpost->toPostObject())
                 ->assign("meta", sprintf('<div class="clear"><pre>%s</pre></div>', print_r($dpost, true)))
                 ->render('products/single');
