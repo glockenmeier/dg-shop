@@ -16,7 +16,7 @@ class dgs_AjaxController extends DopeController {
     
     private $model;
     private $post_type; // products - post type slug
-    private $action_prefix = "dgs_";
+    // private $action_prefix = "dgs_";
 
     /**
      *
@@ -29,6 +29,14 @@ class dgs_AjaxController extends DopeController {
         $this->model = new dgs_Model();
         $this->post_type = $this->model->getProductPostType()->getType();
         add_action("init", array($this, 'init'));
+        
+        // TODO: need to register action, based on Action functions
+        // as names has to be unique, prefix with {class name}_{Action} (as default)
+        // prefix should be modifiable by overiding prefix func.
+        // this is a good time to start making a DopeAjaxController? :)
+        add_action('wp_ajax_dgs_cart_add', array($this, '_ajaxHandler'));
+        add_action('wp_ajax_dgs_cart_update', array($this, '_ajaxHandler'));
+        add_action('wp_ajax_dgs_cart_clear', array($this, '_ajaxHandler'));
     }
 
     public function init(){
@@ -38,10 +46,11 @@ class dgs_AjaxController extends DopeController {
     protected function getCurrentAction() {
         $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
         
-        // remove prefix
-        if (stripos($slug, $this->plugin->getName()) === 0){
-            $slug = str_ireplace($this->plugin->getName(), '', $slug);
-        }
+        // TODO: find out what this is all about below
+//        // remove prefix
+//        if (stripos($slug, $this->plugin->getName()) === 0){
+//            $slug = str_ireplace($this->plugin->getName(), '', $slug);
+//        }
         
         return $action;
     }
@@ -51,5 +60,10 @@ class dgs_AjaxController extends DopeController {
     }
     
     public function defaultAction() {
+    }
+    
+    public function _ajaxHandler() {
+        
+        die("i'm dead");
     }
 }

@@ -25,7 +25,12 @@ abstract class dgs_Metabox extends DopeMetabox {
      */
     private $nonce_name = null;
     private $nonce = null;
-    
+    /**
+     * Posts with status listed here will not trigger {@see dgs_Metabox::onSave() }
+     * @var array
+     */
+    protected $unwanted_status = null;
+
     /**
      * Creates a new metabox instance.
      * @param DopeView $view
@@ -46,7 +51,7 @@ abstract class dgs_Metabox extends DopeMetabox {
         $r = new ReflectionClass($this);
         return $r->getName();
     }
-    
+
     protected function create_nonce($action = 'onSave') {
         if ($this->nonce_name === null) {
             $this->nonce_name = $this->get_nonce_name();
@@ -64,21 +69,42 @@ abstract class dgs_Metabox extends DopeMetabox {
         return true;
     }
 
+    /**
+     * Callback function for save_post action.
+     * @param type $post_id the post id
+     * @uses dgs_Metabox::$unwanted_status post with given status gets filtered out
+     * @uses add_action() as callback
+     * @return void
+     */
     public function _doSave($post_id) {
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            // we're ignoring autosave
-            return;
+            return; // we're ignoring autosave
         }
-        /*
-        if (!is_page($this->screen)){
-            return;
+
+        $dpost = DopePost::get($post_id);
+
+        if ($dpost->getType() !== $this->screen) {
+            return; // wrong post type
         }
-         */
+
+        if ($this->unwanted_status === null) {
+            // set defaults
+            $this->unwanted_status = array(
+                // NOTE: while on auto-draft , meta-cap is not ready so calling current_user_can() will result in PHP notice: calling non-property on object
+                'auto-draft',// a newly created post, with no content
+                'trash', // post is in trashbin. added with Version 2.9. no reason to save before trashing.
+                'inherit' // a revision. see get_children. revision should not be changed.
+            );
+        }
+
+        if (in_array($dpost->getStatus(), $this->unwanted_status)) {
+            return; // nothing to save
+        }
         
-        if (!current_user_can('edit_post')) {
-            // insufficient user permission
-            return;
+        if (!current_user_can('edit_post_meta')) {
+            return; // insufficient user permission
         }
+
         if ($this->verify_nonce()) {
             // call onSave only if nonce is valid
             $this->onSave($post_id);
@@ -89,7 +115,7 @@ abstract class dgs_Metabox extends DopeMetabox {
         $this->nonce = $this->create_nonce();
         parent::_doRenderMetabox($post);
     }
-    
+
     protected function getNonce() {
         return $this->nonce;
     }
@@ -106,13 +132,20 @@ abstract class dgs_Metabox extends DopeMetabox {
         $values = array();
         // build combined key/key-name/value list from hidden form input elements
         foreach ($_POST as $k => $v) {
-            // TODO: sanitize k/v from $_POST
+            // sanitize k/v from $_POST
+            if (is_array($v)){
+               $v = array_map('sanitize_text_field', $v);
+            }else {
+                sanitize_text_field($v);
+            }
+
             // if it's an option value 
             if (stripos($k, $value_prefix) === 0) {
                 // remove prefix from key
                 $key = substr($k, strlen($value_prefix));
                 $this->add_or_update($key, array("key" => $key, "options" => $v), $values);
             }
+            
             // if it's the option name
             if (stripos($k, $name_prefix) === 0) {
                 // remove prefix from key

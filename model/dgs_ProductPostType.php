@@ -16,8 +16,9 @@ class dgs_ProductPostType extends DopeCustomPostType {
     /**
      * Creates a new instance of DG's Shop Products - Custom Post Type 
      */
-    public function __construct($post_type = 'dgs-products') {
-        $label = new DopeSimplePostTypeLabel('Product', 'Products');
+    public function __construct($post_type = 'dgs-products', $slug = null) {
+        $slug = $slug === null ? $post_type : sanitize_title($slug);
+        $label = new SimpleDopePostTypeLabel('Product', 'Products');
         $options = array(
             'labels' => $label->getLabelObject(),
             'public' => true,
@@ -25,7 +26,7 @@ class dgs_ProductPostType extends DopeCustomPostType {
             'show_in_nav_menus' => true,
             'show_in_menu' => true,
             'has_archive' => true,
-            'rewrite' => array('slug' => 'fair-trade-products', 'pages' => true),
+            'rewrite' => array('slug' => $slug, 'pages' => true),
             'capability_type' => 'post',
             'map_meta_cap' => true,
             'taxonomies' => array('post_tag', 'category'),
@@ -36,4 +37,5 @@ class dgs_ProductPostType extends DopeCustomPostType {
 
         parent::__construct($post_type, $options);
     }
+
 }

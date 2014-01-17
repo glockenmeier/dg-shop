@@ -12,7 +12,7 @@
  * @subpackage metabox/attributes
  */
 $attrMeta = new dgs_ProductAttributeMeta($this->post->ID);
-$attributes = $attrMeta->getIterable();
+$fields = $attrMeta->getIterable();
 ?>
 <table>
     <thead>
@@ -22,7 +22,7 @@ $attributes = $attrMeta->getIterable();
         </tr>
     </thead>
     <tbody>
-        <?php while ($attributes->hasNext()): $next = $attributes->next(); // populate with available attributes ?>
+        <?php while ($fields->hasNext()): $next = $fields->next(); // populate with available attributes ?>
         <tr class="attribute">
             <td class="left">
                 <div class="input add_new_attribute">

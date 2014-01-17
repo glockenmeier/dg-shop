@@ -1,0 +1,12 @@
+{
+    'product_post_type':  'products',
+    'product_slug':  'products',
+    'post_per_page': 10,
+    'include_dojo': true,
+    'dojo_url': '//js.local/dojo-src/dojo/dojo.js',
+    'dojo_cdn': [
+        { 'name' : 'google', 'url': '//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/dojo.js'},
+        { 'name' : 'test', 'url': '//js.local/dojo-src/dojo/dojo.js'}
+    ],
+    'keep_settings': false
+}

@@ -20,9 +20,13 @@
 $dpost = DopePost::get($this->post);
 $optionMeta = new dgs_ProductOptionMeta($dpost->getId());
 $options = $optionMeta->getIterable();
+$attrMeta = new dgs_ProductAttributeMeta($dpost->getId());
+$fields = $attrMeta->getIterable();
 ?>
 
 <?php get_header(); ?>
+
+<?php get_sidebar(); ?>
 <div id="primary" <?php echo $this->content_class ?>>
     <div id="content">
     <?php if ($dpost !== null) : ?>
@@ -38,11 +42,11 @@ $options = $optionMeta->getIterable();
                 </a>
             </div>
             <div class="dclear"></div>
-            <span class="round">
-            <div class="mini-thumb"><div class="the-mini-thumb"></div></div>
-            <div class="mini-thumb"><div class="the-mini-thumb"></div></div>
-            <div class="mini-thumb"><div class="the-mini-thumb"></div></div>
-            </span>
+            <div class="thumbs">
+                <div class="mini-thumb"><div class="the-mini-thumb"></div></div>
+                <div class="mini-thumb"><div class="the-mini-thumb"></div></div>
+                <div class="mini-thumb"><div class="the-mini-thumb"></div></div>
+            </div>
         </div><!-- end of .post-thumb -->
     <?php endif; ?>
         <div class="post-entry">
@@ -73,7 +77,7 @@ $options = $optionMeta->getIterable();
                     <tbody>
             <?php while ($options->hasNext()): $opts = $options->next() ?>
                         <tr class="option">
-                            <td><label for="options"><?php echo $opts->getName() ?></label></td>
+                            <td><label for="options"><?php echo $opts->getName(); ?></label></td>
                             <td>
                                 <select name="options">
                                     <option class="select" value="" selected="selected">-- Select --</option>
@@ -88,22 +92,20 @@ $options = $optionMeta->getIterable();
                 </table>
             </div><!-- end of .options -->
             <?php endif; ?>
-            <?php $options = $optionMeta->getIterable(); ?>
-            <?php if ($options->hasNext()): ?>
+            <?php if ($fields->hasNext()): ?>
             <div class="attributes">
                 <table>
                     <caption>Attributes</caption>
+                    <thead>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </thead>
                     <tbody>
-            <?php while ($options->hasNext()): $opts = $options->next() ?>
+            <?php while ($fields->hasNext()): $attr = $fields->next() ?>
                         <tr class="attribute">
-                            <td><label for="options"><?php echo $opts->getName() ?></label></td>
+                            <td><label for="options"><?php echo $attr->getName() ?></label></td>
                             <td>
-                                <select name="options">
-                                    <option class="select" value="" selected="selected">-- Select --</option>
-                                <?php foreach ($opts->getOptions() as $val ): ?>
-                                    <option value="<?php echo $val ?>"><?php echo $val ?></option>
-                                <?php endforeach; ?>
-                                </select>
+                                <?php echo $attr->getValue(); ?>
                             </td>
                         </tr>
             <?php endwhile; ?>
@@ -122,15 +124,14 @@ $options = $optionMeta->getIterable();
         <div class="dclear"></div>
         </div><!-- end of #post-<?php the_ID(); ?> -->
 
-    <?php global $wp_query; ?>
-    <?php if ($wp_query->max_num_pages > 1) : ?>
+    <?php if ($this->has_pages) : ?>
         <div class="navigation">
             <div class="previous"><?php next_posts_link(__('&#8249; Older posts', 'dg-shop')); ?></div>
             <div class="next"><?php previous_posts_link(__('Newer posts &#8250;', 'dg-shop')); ?></div>
         </div><!-- end of .navigation -->
     <?php endif; ?>
 
-    <?php else : ?>
+    <?php else : // dpost is null ?>
         <h1 class="title-404"><?php _e('404 &#8212; Oops!', 'dg-shop'); ?></h1>
         <p><?php _e('Don&#39;t panic, we&#39;ll get through this together. Let&#39;s explore our options here.', 'dg-shop'); ?></p>
         <h6><?php _e('You can return', 'dg-shop'); ?> <a href="<?php echo home_url(); ?>/" title="<?php esc_attr_e('Home', 'dg-shop'); ?>"><?php _e('&larr; Home', 'dg-shop'); ?></a> <?php _e('or search for the page you were looking for', 'dg-shop'); ?></h6>
@@ -139,5 +140,4 @@ $options = $optionMeta->getIterable();
     </div>
 </div><!-- end of #primary -->
 
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>

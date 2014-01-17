@@ -30,6 +30,8 @@ final class dgs_FrontController extends DopeController {
         $this->model = new dgs_Model();
         $this->post_type = $this->model->getProductPostType()->getType();
         add_action('init', array($this, 'init'));
+        add_action('wp_logout', array($this, 'destroy_session'));
+        add_action('wp_login', array($this, 'destroy_session'));
     }
 
     public function init() {
@@ -38,15 +40,21 @@ final class dgs_FrontController extends DopeController {
         add_action('template_redirect', array($this, 'template_redirect'), 1);
         add_filter('request', array($this, 'add_cpt_to_feed'));
         add_filter('pre_get_posts', array($this, 'pre_get_posts'));
-        $this->init_shop();
+        $this->init_session();
         $this->plugin->enqueueStyle('dg-shop');
     }
 
-    public function init_shop() {
+    public function init_session() {
         if (session_id() === "") {
             if (!session_start()) {
                 throw new DopeControllerException("Could not start a session.");
             }
+        }
+    }
+    
+    public function destroy_session() {
+        if (session_id() !== ""){
+            session_destroy();
         }
     }
 
@@ -97,16 +105,16 @@ final class dgs_FrontController extends DopeController {
         $q = $this->getQuery();
         $dpost = $this->getPost();
 
-        $view = new SimpleDopeView($this->plugin);
+        $view = new SimpleDopeView($this->plugin->getDirectory());
         $view->assign('content_class', $content_class)
                 ->assign("slug", $this->post_type)
                 ->assign("post", $dpost->toPostObject())
-                ->assign("meta", sprintf('<div class="clear"><pre>%s</pre></div>', print_r($dpost, true)))
+                ->assign('has_pages', $this->getQuery()->max_num_pages > 1)
                 ->render('products/single');
     }
 
     private function cpt_products_archive_template() {
-        $view = new SimpleDopeView($this->plugin);
+        $view = new SimpleDopeView($this->plugin->getDirectory());
         $content_class = sprintf('class="%s-archive"', esc_attr($this->post_type));
         $paged = get_query_var('paged') ? '&paged=' . get_query_var('paged') : '';
         $posts_query = sprintf('post_type=%s%s', $this->post_type, $paged);
@@ -126,7 +134,7 @@ final class dgs_FrontController extends DopeController {
     }
 
     public function defaultAction() {
-        
+        // do nothing
     }
 
 }

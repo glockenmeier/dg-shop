@@ -25,14 +25,17 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-include 'dependency-check.php';
 
-/**
- * Let dope register the autoload feature for this plugin.
- */
-DopePluginAutoloader::register(plugin_dir_path(__FILE__));
+function dgshop_bootstrap() {
+    /**
+    * Let dope register the autoload feature for this plugin.
+    */
+   DopePluginAutoloader::register(plugin_dir_path(__FILE__));
 
-/*
- * Starts the plugin
- */
-DgShop::bootstrap(__FILE__);
+   /*
+    * Starts the plugin
+    */
+   DgShop::bootstrap(__FILE__);
+}
+
+add_action('dope_ready', 'dgshop_bootstrap');

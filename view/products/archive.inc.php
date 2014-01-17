@@ -19,6 +19,8 @@ if (!defined('ABSPATH'))
  */
 ?>
 <?php get_header(); ?>
+<?php get_sidebar(); ?>
+
 <div id="primary" <?php echo $this->content_class ?>>
     <div id="content">
         <h2>Products</h2>
@@ -75,6 +77,4 @@ if (!defined('ABSPATH'))
         <?php endif; ?>  
     </div> <!-- end of #content -->
 </div><!-- end of #primary -->
-
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>

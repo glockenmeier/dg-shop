@@ -14,10 +14,14 @@
 final class dgs_Model {
     private $products; // products - custom post type
     private $meta;
+    private $settings = null;
     
     public function __construct() {
-        $this->products = new dgs_ProductPostType('fair_trade_products');     
-        //$this->meta = new dgs_ProductMeta();
+        $opt = new DopeOptions('dgs_');
+        $slug = $opt->get('product_slug', 'products');
+        $this->products = new dgs_ProductPostType('dgs_products', $slug);
+        
+        $this->settings = dgs_Settings::getInstance();
     }
     
     /**
@@ -47,7 +51,14 @@ final class dgs_Model {
         $attrMeta = new dgs_ProductAttributeMeta($post->ID);
         return $attrMeta->getIterable();
     }
-
+    
+    /**
+     * 
+     * @return dgs_Settings
+     */
+    public function getSettings() {
+        return $this->settings;
+    }
 }
 
 ?>

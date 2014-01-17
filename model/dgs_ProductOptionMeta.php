@@ -50,7 +50,7 @@ class dgs_ProductOptionMeta extends dgs_ProductMeta implements DopeIterableAggre
      * @return Iterator
      */
     public function getIterator() {
-        return new DopeIteratorAdapter($this->getIterable());
+        return CollectionUtil::getIterator($this->getIterable());
     }
 
     /**

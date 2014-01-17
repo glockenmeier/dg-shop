@@ -35,17 +35,30 @@ class dgs_ProductAttributeMeta extends dgs_ProductMeta implements DopeIterableAg
         return $result;
     }
     
+    /**
+     * 
+     * @param type $key
+     * @return \dgs_ProductAttribute
+     */
     public function getObject($key) {
         $attr = $this->get($key);
         
         return new dgs_ProductAttribute($attr['key'], $attr['name'], $attr['options']);
     }
 
+    /**
+     * 
+     * @return \dgs_ProductAttributesIterator
+     */
     public function getIterable() {
         $attributes = $this->getAllObject();
         return new dgs_ProductAttributesIterator($attributes);
     }
-
+    
+    /**
+     * 
+     * @return Iterator
+     */
     public function getIterator() {
         return new DopeIteratorAdapter($this->getIterable());
     }

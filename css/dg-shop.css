@@ -206,7 +206,7 @@ root {
 }
 
 /* Temporary adjustments */
-
+/*
 #page {
     background-color: #AEAE5F;
 }
@@ -214,6 +214,7 @@ root {
 html body.custom-background {
     background-color: #028041;
 }
+*/
 /* end of temporary */
 
 .fair_trade_products-single .options {
@@ -259,3 +260,46 @@ html body.custom-background {
     font-size: 1.2em;
     background-color: rgba(200,202, 200 ,0.5);
 }
+
+/*
+.post-meta > .options > table caption,
+.post-meta > .attributes > table caption {
+    color: yellow;
+}
+*/
+
+/* defaults / basics */
+/*
+table {
+    padding: 5px;
+    background-color: rgba(100,225,100,16);
+}
+
+tbody {
+    padding: 5px;
+    color: green;
+    background-color: rgba(50,225,50,16);
+}
+
+thead {
+    background-color: rgba(225,50,50,16);
+}
+
+table caption {
+    color: red;
+    background-color: rgba(225,200,200,16);
+}
+
+th {
+    padding: 2px;
+    color: red;
+    background-color: rgba(225,100,100,16);
+    text-align: center;
+}
+td {
+    color: blue;
+    background-color: rgba(100,100,225,16);
+    padding: 0px 10px;
+    margin: 5px;
+}
+*/

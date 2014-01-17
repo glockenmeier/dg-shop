@@ -14,14 +14,19 @@ class DgShop extends DopePlugin {
 
     private static $instance = null;
     private $controller = null;
+    /**
+     * @var dgs_Settings instance
+     */
+    private $settings = null;
 
     public function __construct($bootstrapFile) {
         parent::__construct($bootstrapFile);
-
         $this->init();
     }
 
     public function init() {
+        $this->settings = dgs_Settings::getInstance();
+        
         if (is_admin() && defined('DOING_AJAX') && DOING_AJAX) {
             $this->controller = new dgs_AjaxController($this);
         } else if (is_admin()) {
@@ -39,11 +44,11 @@ class DgShop extends DopePlugin {
 
     public function add_dojo_dev_script($ar) {
 
-        $use_local = false;
+        $use_local = true;
         $google_cdn = "//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/dojo.js";
-        $local = "//js.local/dojo-src/dojo/dojo.js";
+        $local = "//js.loc/dojo-src/dojo/dojo.js";
 
-        $view = new SimpleDopeView($this);
+        $view = new SimpleDopeView($this->getDirectory());
         $loc = is_admin() ? "/.." : "";
 
         $view->assign("src", $use_local ? $local : $google_cdn)
@@ -86,11 +91,11 @@ class DgShop extends DopePlugin {
         $dg_shop = DgShop::getInstance($plugin_bootstrap);
 
         /* Registers our plugin with dope's plugin-manager.
-         * Right now this does nothing aside from registering. Might be used in future
+         * Right now this does nothing aside from registering events. Might be used in future
          * to manage dope based plug-ins, dependencies, etc.
          */
         $pluginManager->register($dg_shop);
-
+        
         /*
          * Enable dope's exception handler for debugging.
          */
@@ -110,19 +115,24 @@ class DgShop extends DopePlugin {
     public function getName() {
         return "DG's Shop";
     }
-
+    
     public function onActivation($event) {
 
         $model = new dgs_Model();
         $model->getProductPostType()->register();
-        $this->flush_rewrite();
+        
+        $this->settings->init();
+        
+        $rewrite = DopeUtil::get_wp_rewrite();
+        $rewrite->flush_rules(true);
     }
-
-    public function flush_rewrite() {
-        error_log("flush_rewrite() start");
-        global $wp_rewrite;
-        $wp_rewrite->flush_rules(true);
-        error_log("flush_rewrite() end");
+    
+    public function onDeactivation($event) {
+        $this->settings->remove();
+    }
+    
+    public function onLoad($event) {
+        $this->settings->load();
     }
 
 }
