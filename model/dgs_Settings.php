@@ -36,10 +36,10 @@ class dgs_Settings implements DopePluginEvent {
     }
 
     public function init() {
-        $this->opt_object = get_option(self::$option_name, null);
-        if ($this->opt_object === null) {
+        $this->opt_object = get_option(self::$option_name);
+        if ($this->opt_object === false) {
             // initialize with defaults
-            $jsonString = include 'default-settings.json';
+            $jsonString = include '../default-settings.json';
             $this->opt_object = json_decode($jsonString, false);
             update_option(self::$option_name, $jsonString);
         } else {
